@@ -1,6 +1,244 @@
+<!DOCTYPE html>
+<html lang="kr">
+    
+  <head>
+    <head>
 
-{% extends "background.html" %}
-{% block content %}
+        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+
+        <script>
+            var socket = io();
+            socket.on('connect', function() {
+                console.log('Connected to server.');
+            });
+        </script> -->
+        <meta charset="UTF-8">
+        
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+        <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <link rel="manifest" href="/static/manifest.json">
+
+    </head>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: 'poppins',sans-serif;
+
+            background-image: url("/static/images/background.jpg");
+            background-attachment: fixed;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        #mainbackground-logo{
+            color: white;
+            font-size: 2em;
+            font-weight: 1000;
+            margin: 0 auto;
+            margin-top: 25px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .mainbackground-menu_box{
+            display: flex;
+            overflow:auto;
+            width: 90vw;
+            margin-left: 5vw;
+            margin-right: 5vw;
+            justify-content: center;
+            margin-bottom: 25px;
+            height: 30px;
+        }
+
+        .mainbackground-menu_box::-webkit-scrollbar {
+            background-color: transparent;
+            opacity: 0;
+          }
+
+        .mainbackground-menu{
+            height: 25px;
+            margin-left: 10px;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            vertical-align: bottom;
+
+            width: 125px;
+            color: white;
+
+            font-size: 1em;
+            margin-top: 0.25em;
+            transition: all 0.2s;
+        }
+        
+        .mainbackground-menu:hover{
+            margin-top: 0em;
+        }
+
+        .rounded-input {
+            border: 2px solid white; /* 테두리를 추가합니다. */
+            border-radius: 5px; /* 모서리를 둥글게 합니다. */
+            outline: none; /* 포커스 시 생기는 테두리를 없앱니다. */
+            background-color: transparent; /* 배경을 투명하게 합니다. */
+            transition: border 0.3s ease-in-out; /* 애니메이션을 추가합니다. */
+            color: white;
+            padding: 10px; /* 내부 여백을 추가합니다. */
+            text-align: center;
+        }
+        
+        /* 인풋박스에 포커스가 되었을 때의 스타일을 설정합니다. */
+        .rounded-input:focus {
+            border: 2px solid rgb(160, 255, 255); /* 테두리 색상을 파란색으로 변경합니다. */
+        }
+
+        .underline-input {
+            border: none; /* 테두리를 없앱니다. */
+            border-bottom: 2px solid white; /* 밑줄을 추가합니다. */
+            outline: none; /* 포커스 시 생기는 테두리를 없앱니다. */
+            background-color: transparent; /* 배경을 투명하게 합니다. */
+            transition: border-bottom 0.3s ease-in-out; /* 애니메이션을 추가합니다. */
+            color: white;
+            text-align: center;
+        }
+        
+        /* 인풋박스에 포커스가 되었을 때의 스타일을 설정합니다. */
+        .underline-input:focus {
+            border-bottom: 2px solid rgb(160, 255, 255); /* 밑줄 색상을 파란색으로 변경합니다. */
+        
+        }
+
+
+        .rounded-button {
+            border: 2px solid white;
+            border-radius: 10px;
+            outline: none;
+            background-color: transparent;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer; /* 버튼 커서를 추가합니다. */
+            background-color: transparent;
+            color: white; /* 버튼 글자색을 변경합니다. */
+
+            width: fit-content;
+            height: fit-content;
+            transition: 0.1s ease-in-out; /* 애니메이션을 추가합니다. */
+        }
+        
+        .rounded-button:hover { /* 버튼에 마우스를 올렸을 때의 스타일을 설정합니다. */
+            background-color: white;
+            color: black;
+        }
+
+        .input-dialog{
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+    </style>
+
+    <body>
+        <span id="mainbackground-logo" onclick="LocationWarp('/')">Kimryungyo</span>
+
+        
+        <div class="mainbackground-menu_box">
+            <div style="display: flex;">
+                <span class="mainbackground-menu" onclick="LocationWarp('/')">Main</span>
+                <span class="mainbackground-menu" onclick="LocationWarp('/cloud')">Cloud</span>
+                <span class="mainbackground-menu" onclick="LocationWarp('/novel')">Viewer</span>
+                <span class="mainbackground-menu" onclick="LocationWarp('/chatgpt')">Chat GPT</span>
+                <span class="mainbackground-menu" onclick="LocationWarp('/note')">Note</span>
+                <span class="mainbackground-menu" onclick="LocationWarp('/realfarm')">Realfarm</span>
+                <span class="mainbackground-menu" onclick="LocationGet('/shutdown', '정말 서버를 종료하시겠습니까')">Shutdown</span>
+                <span class="mainbackground-menu" onclick="LocationWarp('/logout', '정말 로그아웃하시겠습니까?')">Logout</span>
+            </div>
+        </div>
+
+
+
+    </body>
+
+    <script>
+        function LocationWarp(dest, msg = '') {
+            console.log(dest);
+            if (msg == '') {
+                location.href = dest;
+            } else if (window.confirm(msg)) {
+                location.href = dest;
+            } else {
+                console.log("Warp Cancled");
+            }
+        }
+        
+        function LocationGet(dest, msg = '') {
+            if (msg == '') {
+                fetch(dest)
+                    .then(response => NovelUpdateInfos())
+            } else if (window.confirm(msg)) {
+                fetch(dest)
+                    .then(response => NovelUpdateInfos())
+            } else {
+                console.log("Warp Cancled");
+            }
+        }
+        
+
+        function showInputDialog(message, hasCancelButton = true, value = '') {
+            return new Promise((resolve) => {
+                const inputDialog = document.createElement('div');
+                inputDialog.className = 'input-dialog';
+
+                const inputLabel = document.createElement('label');
+                inputLabel.textContent = message;
+                inputDialog.appendChild(inputLabel);
+
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.value = value;
+                inputDialog.appendChild(inputField);
+
+                const okButton = document.createElement('button');
+                okButton.textContent = 'OK';
+                okButton.addEventListener('click', () => {
+                    const inputValue = inputField.value;
+                    document.body.removeChild(inputDialog);
+                    resolve(inputValue);
+                });
+                inputDialog.appendChild(okButton);
+
+                if (hasCancelButton) {
+                    const cancelButton = document.createElement('button');
+                    cancelButton.textContent = 'Cancel';
+                    cancelButton.addEventListener('click', () => {
+                        document.body.removeChild(inputDialog);
+                        resolve(false);
+                    });
+                    inputDialog.appendChild(cancelButton);
+                }
+
+                document.body.appendChild(inputDialog);
+                inputField.focus();
+            });
+        }
+
+    </script>
 
 <script>
  
@@ -499,4 +737,5 @@ function sendMessage() {
     }
 }
 </script>
-{% endblock %}
+
+</html>
